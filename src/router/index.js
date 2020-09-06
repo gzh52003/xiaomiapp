@@ -37,6 +37,11 @@ const routes = [{
     name: 'Login',
     component: () => import('../views/Login.vue')
     //路由按需引入（路由懒加载）
+  }, {
+    path: '/mine',
+    name: 'mine',
+    component: () => import('../views/mine.vue')
+    //路由按需引入（路由懒加载）
   },
   {
     path: '/reg',

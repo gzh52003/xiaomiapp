@@ -22,8 +22,24 @@ import {
   Image,
   ImagePreview,
   Field,
+  Icon,
   Checkbox,
+  Col,
+  Row,
+  Cell,
+  CellGroup,
+  Divider,
+  Card,
+  SwipeCell,
+  Stepper,
+  CheckboxGroup,
+  SubmitBar,
+  Dialog,
 } from "vant";
+Vue.use(SubmitBar);
+Vue.use(Divider);
+Vue.use(Cell);
+Vue.use(CellGroup);
 Vue.use(Image);
 Vue.use(Button);
 Vue.use(Tabbar);
@@ -32,6 +48,14 @@ Vue.use(Tag);
 Vue.use(Field);
 Vue.use(Checkbox);
 Vue.use(ImagePreview);
+Vue.use(Col);
+Vue.use(Row);
+Vue.use(Icon);
+Vue.use(Card);
+Vue.use(SwipeCell);
+Vue.use(Stepper);
+Vue.use(CheckboxGroup);
+Vue.use(Dialog);
 export default {
   data() {
     return {
@@ -73,10 +97,9 @@ export default {
       return this.$store.state.common.showTabbar;
     },
   },
-  created() {
-    // this.$store.dispatch('getCart');
-    console.log(this.$store);
-  },
+  // created() {
+  //   this.$store.dispatch("getCartAsync");
+  // },
 };
 </script>
 <style lang="scss">

@@ -126,23 +126,39 @@ export default {
       this.recommend = recommend.data;
       console.log("recommend=", recommend);
     },
-    add2cart() {
+    async add2cart() {
       // 添加当前商品到购物车;
       // 判断当前商品是否已经存在购物车中
       // 存在：数量+1
       // 不存在：添加到购物车
-      const { _id } = this.data;
-      const current = this.cartlist.filter((item) => item._id === _id)[0];
-      if (current) {
-        this.$store.commit("changeQty", { _id, qty: current.qty + 1 });
-      } else {
-        const goods = {
-          ...this.data,
-          qty: 1,
-        };
-        // 调用mutation方法
-        this.$store.commit("add", goods);
-      }
+      const {
+        _id,
+        product_name,
+        img_url,
+        product_price,
+        product_brief,
+        product_org_price,
+      } = this.data;
+      const { data } = await this.$request.post("/cart", {
+        _id,
+        product_name,
+        img_url,
+        product_price,
+        product_brief,
+        product_org_price,
+      });
+      // const { _id } = this.data;
+      // const current = this.cartlist.filter((item) => item._id === _id)[0];
+      // if (current) {
+      //   this.$store.commit("changeQty", { _id, qty: current.qty + 1 });
+      // } else {
+      //   const goods = {
+      //     ...this.data,
+      //     qty: 1,
+      //   };
+      // 调用mutation方法
+      // this.$store.commit("add", goods);
+      // }
     },
     buyNow() {
       // 添加当前商品到购物车，并跳转到购物车页面

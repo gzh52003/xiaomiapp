@@ -48,7 +48,7 @@ export default {
           name: "discover",
           path: "/discover",
           icon: "eye-o",
-          text: "发现",
+          text: "分类",
         },
         {
           name: "cart",

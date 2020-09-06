@@ -3,11 +3,14 @@
     <van-nav-bar
       :title="data.product_name"
       left-text="返回"
-      right-text="按钮"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
-    />
+    >
+      <template #right>
+        <van-icon name="search" size="20" />
+      </template>
+    </van-nav-bar>
     <van-image :src="data.img_url[0]" @click="showBig" :key="data._id"></van-image>
     <div class="goods-info">
       <h1>{{data.product_name}}</h1>
@@ -67,7 +70,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      Toast("返回");
+      // Toast("返回");
       this.$router.back();
       console.log("router=", this.$router);
     },
@@ -97,8 +100,8 @@ export default {
       ImagePreview({
         images: [
           this.data.img_url,
-          "http://localhost:2003/uploads/goods/3b19bf0e7e599c1bbbce510fb0dbc8bc.jpg",
-          "http://localhost:2003/uploads/goods/7cfdbce40301133a287e9e57faa37bdf.jpg",
+          "/img/3b19bf0e7e599c1bbbce510fb0dbc8bc.jpg",
+          "/img/7cfdbce40301133a287e9e57faa37bdf.jpg",
           "http://localhost:2003/uploads/goods/237942bfcaf2bbe82fbe966c2f584d69.jpg",
           // "/img/740ff1324d84482ebaf35947059764f6_big.jpg",
           // "/img/2ce8ca193b8f43c799416cbafc7cb2f4_big.jpg",
@@ -121,6 +124,7 @@ export default {
         params: {
           sort: "sales_qty",
           total: 0,
+          size: 6,
         },
       });
       this.recommend = recommend.data;

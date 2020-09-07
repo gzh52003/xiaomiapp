@@ -56,7 +56,6 @@ router.delete("/:_id", async (req, res) => {
 // 添加用户购物车数据
 router.post('/', async (req, res) => {
     const {
-
         _id,
         product_name,
         img_url,
@@ -68,26 +67,66 @@ router.post('/', async (req, res) => {
     // 检查 商品 id 是否存在，是则 增加数量，否则存入数据库
     let list = await mongo.find('cartList', {
         // 查询 cartList 中的 _id 属性 =_idr 
-        "cartList._id": "5f3f812d0aa5c27443bc190e",
+        "cartList._id": _id,
 
     }, {
         field: {
-            cartList: true // 返回 cartList 字段数据
+            cartList: true, // 返回 cartList 字段数据
+            _id: false
         }
     })
-    console.log(list)
+    console.log(list[0])
+    // 如果 返回 了数据 ，说明商品已存在在购物车
     if (list.length >= 1) {
-        list = list.map((item => {
-            if (item._id == _id) {
-                item.num = item + 1
-            }
-            return
+        res.send(sendDate({
+            code: 2 // 返回成功信息，code=2 说明购物车已经在该商品，
         }))
-        mongo.update("cartList", {
-            "cartList._id": _id
-        }, {
-            cartList: list
-        })
+        // list = list[0].cartList.map((item => {
+
+        //     if (item._id == _id) {
+
+        //         item.num = item.num - 0 + 1
+        //     }
+        //     return item
+        // }))
+        // try {
+        //     const ress = await mongo.update("cartList", {
+        //         "cartList._id": _id
+        //     }, {
+        //         $set: {
+        //             cartList: list
+        //         }
+        //     })
+        // } catch (err) {
+
+        // }
+
+    } else {
+        try {
+            mongo.update("cartList", {
+                username: 'haoge'
+            }, {
+
+                // $push 方法，添加新的数据进 cartList 数组
+                $push: {
+                    cartList: {
+                        _id,
+                        product_name,
+                        img_url,
+                        product_price,
+                        product_brief,
+                        product_org_price,
+                        num: 1,
+                    }
+                }
+            })
+            res.send(sendDate({
+                code: 1
+            }))
+        } catch (err) {
+
+        }
+
     }
 
     try {

@@ -50,6 +50,7 @@ import {
   GoodsActionButton,
   ImagePreview,
   Toast,
+  Notify,
 } from "vant";
 
 Vue.use(GoodsAction);
@@ -57,7 +58,7 @@ Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
 Vue.use(ImagePreview);
 Vue.use(Toast);
-
+Vue.use(Notify);
 export default {
   name: "Goods",
   data() {
@@ -151,18 +152,19 @@ export default {
         product_brief,
         product_org_price,
       });
-      // const { _id } = this.data;
-      // const current = this.cartlist.filter((item) => item._id === _id)[0];
-      // if (current) {
-      //   this.$store.commit("changeQty", { _id, qty: current.qty + 1 });
-      // } else {
-      //   const goods = {
-      //     ...this.data,
-      //     qty: 1,
-      //   };
-      // 调用mutation方法
-      // this.$store.commit("add", goods);
-      // }
+      // console.log("666", data);
+      if (data.code == 2) {
+        Notify({
+          message: "购物车已经存在该商品",
+          duration: 1500,
+          color: "#ad0000",
+          background: "#ffe1e1",
+        });
+      } else if (data.code == 1) {
+        Notify({ type: "primary", message: "成功加入购物车" });
+      } else {
+        Notify({ type: "warning", message: "加入购物车失败" });
+      }
     },
     buyNow() {
       // 添加当前商品到购物车，并跳转到购物车页面

@@ -1620,3 +1620,70 @@
         "log_code": "31pchomepagelist_eight_product_tab007001#t=product&act=product&page=homepage&pid=9729&page_id=10530&bid=3480948.20"
     }
 }
+
+
+
+
+
+//
+{
+    "_id": ObjectId("5f533cd664c267b047249b71"),
+    "username": "haoge",
+    "cartList": [{
+            "_id": "5f3f812d0aa5c27443bc190e",
+            "img_url": [
+                "http://localhost:2003/uploads/goods/d880ff45a9a3b70527770e01521fc939.jpg"
+            ],
+            "product_id": 12609,
+            "product_name": "小米10 至尊版",
+            "product_brief": "120X 变焦/120W秒充/120Hz屏幕",
+            "product_price": "5299",
+            "product_org_price": "5299",
+            "show_price_qi": true,
+            "category": "手机",
+            "num": 1
+        },
+        {
+            "_id": "5f3f812d0aa5c27443bc1911",
+            "img_url": [
+                "http://localhost:2003/uploads/goods/3b19bf0e7e599c1bbbce510fb0dbc8bc.jpg"
+            ],
+            "product_id": 12605,
+            "product_name": "Redmi K30 至尊版",
+            "product_brief": "120Hz弹出全面屏，天玑1000+旗舰处理器",
+            "product_price": "1999",
+            "product_org_price": "1999",
+            "show_price_qi": true,
+            "category": "手机",
+            "num": 1
+        },
+        {
+            "_id": "5f3f812d0aa5c27443bc1914",
+            "img_url": [
+                "http://localhost:2003/uploads/goods/237942bfcaf2bbe82fbe966c2f584d69.jpg"
+            ],
+            "product_id": 12517,
+            "product_name": "腾讯黑鲨3S ",
+            "product_brief": "骁龙865处理器，120Hz刷新率",
+            "product_price": "3999",
+            "product_org_price": "3999",
+            "show_price_qi": true,
+            "category": "手机",
+            "num": 1
+        },
+        {
+            "_id": "5f3f812d0aa5c27443bc191d",
+            "img_url": [
+                "http://localhost:2003/uploads/goods/0099822e42b4428cb25c4cdebc6ca53d.jpg"
+            ],
+            "product_id": 10000214,
+            "product_name": "小米10",
+            "product_brief": "骁龙865/1亿像素相机",
+            "product_price": "3699",
+            "product_org_price": "3999",
+            "show_price_qi": true,
+            "category": "手机",
+            "num": 1
+        }
+    ]
+}

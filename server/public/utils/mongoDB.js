@@ -79,7 +79,7 @@ async function update(colName, query, newData) { // newData 需要改成的数�
 
     const collection = db.collection(colName);
 
-    // 传的参数中有 _id 且为字符串时，转化成 id 形式
+    //传的参数中有 _id 且为字符串时， 转化成 id 形式
     if (query._id && typeof query._id === 'string') {
         query._id = ObjectId(query._id);
     }
@@ -129,7 +129,7 @@ async function find(colName, query = {}, options = {}) {
     if (options.limit) {
         result = result.limit(options.limit - 0);
     }
-    console.log(options.skip,options.limit);
+    console.log(options.skip, options.limit);
 
     // 排序
     // console.log('sort', options.sort);

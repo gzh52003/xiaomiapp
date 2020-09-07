@@ -75,7 +75,7 @@ export default {
   },
   created() {
     // this.$store.dispatch('getCart');
-    console.log(this.$store);
+    // console.log(this.$store);
   },
 };
 </script>

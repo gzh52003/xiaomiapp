@@ -69,7 +69,7 @@ export default {
     onClickLeft() {
       Toast("返回");
       this.$router.back();
-      console.log("router=", this.$router);
+      // console.log("router=", this.$router);
     },
     onClickRight() {
       Toast("按钮");
@@ -109,12 +109,12 @@ export default {
     },
     async getData(id) {
       // this.goodsRequestSource = this.$request.source;
-      console.log("source=", this.$request.source);
+      // console.log("source=", this.$request.source);
       const { data } = await this.$request.get("/goods/" + id, {
         // cancelToken:this.goodsRequestSource.token
       });
       this.data = data.data;
-      console.log("data=", data);
+      // console.log("data=", data);
     },
     async getRecommend() {
       const { data: recommend } = await this.$request.get("/goods/", {
@@ -124,7 +124,7 @@ export default {
         },
       });
       this.recommend = recommend.data;
-      console.log("recommend=", recommend);
+      // console.log("recommend=", recommend);
     },
     add2cart() {
       // 添加当前商品到购物车;
@@ -152,7 +152,7 @@ export default {
   },
   async created() {
     const { id } = this.$route.params;
-    console.log("$route=", this.$route);
+    // console.log("$route=", this.$route);
 
     // const { data } = await this.$request.get("/goods/" + id);
     // this.data = data.data;

@@ -120,7 +120,7 @@ export default {
       },
     });
     this.recommend = recommend;
-    console.log("tt", recommend);
+    // console.log("tt", recommend);
 
     // 列表数据
     const {

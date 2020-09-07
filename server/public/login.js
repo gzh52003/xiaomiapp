@@ -15,7 +15,6 @@ router.get("/", async (req, res) => {
         checked,
         vcode
     } = req.query
-    // console.log(username, password)
     //如果这个验证码不相等
     if (vcode !== req.session.vcode) {
         res.send(formatData({
@@ -26,7 +25,6 @@ router.get("/", async (req, res) => {
     // const hash = crypto.createHash('md5');
     // hash.update(password + 'xiaomi'); //加盐，盐值
     // password = hash.digest('hex');
-
     //验证用户名是否存在
     let result = await mongo.find("userList", {
         username,
@@ -35,7 +33,7 @@ router.get("/", async (req, res) => {
     // console.log("这是一个长度", result.length);
     if (result.length > 0) {
         // 用户名、密码、验证码都校验通过后，判断是否有免登陆选项
-        console.log('req.query=', req.query);
+        console.log('37req.query=', req.query);
         let authorization;
         if (checked == 'true') {
             // token的操作

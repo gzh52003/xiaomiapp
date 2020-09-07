@@ -3,11 +3,14 @@
     <van-nav-bar
       :title="data.product_name"
       left-text="返回"
-      right-text="按钮"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
-    />
+    >
+      <template #right>
+        <van-icon name="search" size="20" />
+      </template>
+    </van-nav-bar>
     <van-image :src="data.img_url[0]" @click="showBig" :key="data._id"></van-image>
     <div class="goods-info">
       <h1>{{data.product_name}}</h1>
@@ -31,7 +34,12 @@
 
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
-      <van-goods-action-icon icon="cart-o" text="购物车" @click="goto('/cart')" />
+      <van-goods-action-icon
+        icon="cart-o"
+        :badge="cartList.length !=0 ? cartList.length :null"
+        text="购物车"
+        @click="goto('/cart')"
+      />
       <!-- :badge="cartlist.length" -->
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
       <van-goods-action-button type="warning" text="加入购物车" @click="add2cart" />
@@ -41,12 +49,14 @@
 </template>
 <script>
 import Vue from "vue";
+import { mapState, mapMutations } from "vuex";
 import {
   GoodsAction,
   GoodsActionIcon,
   GoodsActionButton,
   ImagePreview,
   Toast,
+  Notify,
 } from "vant";
 
 Vue.use(GoodsAction);
@@ -54,7 +64,7 @@ Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
 Vue.use(ImagePreview);
 Vue.use(Toast);
-
+Vue.use(Notify);
 export default {
   name: "Goods",
   data() {
@@ -65,9 +75,16 @@ export default {
       recommend: [],
     };
   },
+  computed: {
+    ...mapState({
+      cartList(state) {
+        return state.cart.cartList;
+      },
+    }),
+  },
   methods: {
     onClickLeft() {
-      Toast("返回");
+      // Toast("返回");
       this.$router.back();
       // console.log("router=", this.$router);
     },
@@ -97,8 +114,8 @@ export default {
       ImagePreview({
         images: [
           this.data.img_url,
-          "http://localhost:2003/uploads/goods/3b19bf0e7e599c1bbbce510fb0dbc8bc.jpg",
-          "http://localhost:2003/uploads/goods/7cfdbce40301133a287e9e57faa37bdf.jpg",
+          "/img/3b19bf0e7e599c1bbbce510fb0dbc8bc.jpg",
+          "/img/7cfdbce40301133a287e9e57faa37bdf.jpg",
           "http://localhost:2003/uploads/goods/237942bfcaf2bbe82fbe966c2f584d69.jpg",
           // "/img/740ff1324d84482ebaf35947059764f6_big.jpg",
           // "/img/2ce8ca193b8f43c799416cbafc7cb2f4_big.jpg",
@@ -121,27 +138,46 @@ export default {
         params: {
           sort: "sales_qty",
           total: 0,
+          size: 6,
         },
       });
       this.recommend = recommend.data;
       // console.log("recommend=", recommend);
     },
-    add2cart() {
+    async add2cart() {
       // 添加当前商品到购物车;
       // 判断当前商品是否已经存在购物车中
       // 存在：数量+1
       // 不存在：添加到购物车
-      const { _id } = this.data;
-      const current = this.cartlist.filter((item) => item._id === _id)[0];
-      if (current) {
-        this.$store.commit("changeQty", { _id, qty: current.qty + 1 });
+      const {
+        _id,
+        product_name,
+        img_url,
+        product_price,
+        product_brief,
+        product_org_price,
+      } = this.data;
+      const { data } = await this.$request.post("/cart", {
+        _id,
+        product_name,
+        img_url,
+        product_price,
+        product_brief,
+        product_org_price,
+      });
+      // console.log("666", data);
+      if (data.code == 2) {
+        Notify({
+          message: "购物车已经存在该商品",
+          duration: 1500,
+          color: "#ad0000",
+          background: "#ffe1e1",
+        });
+      } else if (data.code == 1) {
+        Notify({ type: "primary", duration: 1500, message: "成功加入购物车" });
+        this.$store.dispatch("getCartAsync");
       } else {
-        const goods = {
-          ...this.data,
-          qty: 1,
-        };
-        // 调用mutation方法
-        this.$store.commit("add", goods);
+        Notify({ type: "warning", duration: 1500, message: "加入购物车失败" });
       }
     },
     buyNow() {
@@ -149,6 +185,9 @@ export default {
       this.add2cart();
       this.$router.push("/cart");
     },
+  },
+  beforeCreate() {
+    this.$store.dispatch("getCartAsync");
   },
   async created() {
     const { id } = this.$route.params;

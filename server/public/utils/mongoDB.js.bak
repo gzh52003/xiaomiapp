@@ -79,7 +79,7 @@ async function update(colName, query, newData) { // newData 需要改成的数�
 
     const collection = db.collection(colName);
 
-    //传的参数中有 _id 且为字符串时， 转化成 id 形式
+    // 传的参数中有 _id 且为字符串时，转化成 id 形式
     if (query._id && typeof query._id === 'string') {
         query._id = ObjectId(query._id);
     }
@@ -99,28 +99,12 @@ async function find(colName, query = {}, options = {}) {
     } = await connect();
     const collection = db.collection(colName);
 
-
-
-
-    // 定义 Opt 为一个空对象，若 传的参数有 field
-    //  则  opt.projection = options.field; 对返回的字段
-    // 进行筛选, 没传则为 空,不进行筛选
-    const opt = {}
-
-    if (options.field) {
-        opt.projection = options.field;
-    }
-
-    let result = collection.find(query, opt); // 50->10
-
-    const count = await result.count()
-    // console.log(count)
     // 查询到数据集合
+    let result = collection.find(query); // 50->10
+
     if (query._id && typeof query._id === 'string') {
         query._id = ObjectId(query._id);
     }
-
-
     // 判断是否要跳过记录， skip 跳过指定数量
     if (options.skip) {
         result = result.skip(options.skip - 0)
@@ -129,7 +113,7 @@ async function find(colName, query = {}, options = {}) {
     if (options.limit) {
         result = result.limit(options.limit - 0);
     }
-    console.log(options.skip, options.limit);
+    console.log(options.skip,options.limit);
 
     // 排序
     // console.log('sort', options.sort);
@@ -152,15 +136,7 @@ async function find(colName, query = {}, options = {}) {
     result = await result.toArray();
     client.close();
 
-    // 当 options.total== 1 ，说明需要返回数据的总数 
-    if (options.total == 1) {
-        return {
-            total: count,
-            data: result
-        }
-    } else {
-        return result
-    }
+    return result
 }
 
 module.exports = {

@@ -21,6 +21,12 @@ const routes = [{
     //路由按需引入（路由懒加载）
   },
   {
+    path: '/discover',
+    name: 'Discover',
+    component: () => import('../views/Discover.vue')
+    //路由按需引入（路由懒加载）
+  },
+  {
     path: '/goods/:id',
     name: 'Goods',
     component: () => import('../views/Goods.vue')
@@ -36,6 +42,11 @@ const routes = [{
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue')
+    //路由按需引入（路由懒加载）
+  }, {
+    path: '/mine',
+    name: 'mine',
+    component: () => import('../views/mine.vue')
     //路由按需引入（路由懒加载）
   },
   {

@@ -13,7 +13,7 @@ const orderRouter = require("./order")
 const uploadRouter = require("./upload")
 const vcodeRouter = require("./vcode")
 const goodsRouter = require("./goods")
-
+const cartRouter = require("./cart")
 const cors = require("./cors")
 
 // 跨域
@@ -38,7 +38,7 @@ router.use("/order", orderRouter)
 router.use("/vcode", vcodeRouter)
 router.use("/upload", uploadRouter)
 router.use("/goods", goodsRouter)
-
+router.use("/cart", cartRouter)
 // 校验token
 router.get('/jwtverify', (req, res) => {
     const {

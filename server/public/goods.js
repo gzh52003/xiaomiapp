@@ -21,7 +21,6 @@ router.get('/', async (req, res) => {
         skip,
         limit,
         sort,
-        total
     })
 
     res.send(formatData({

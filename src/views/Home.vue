@@ -304,7 +304,7 @@ export default {
       },
     });
     this.goodstwo = goodstwo;
-    console.log(this.goodstwo);
+    console.log("666", this.goodstwo);
   },
 };
 </script>

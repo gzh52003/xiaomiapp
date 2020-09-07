@@ -35,18 +35,30 @@ router.get('/', async (req, res) => {
 })
 
 // 删除用户购物车数据
-router.delete("/:_id", async (req, res) => {
+router.delete("/", async (req, res) => {
     const {
-        _id
-    } = req.params
+        _ids = []
+    } = req.query
+    console.log(_ids)
+    // 删除  cartList 数组中的某几条，所以用 改数据的方法
     try {
-        const result = await mongo.remove('cartList', {
-            _id
+        const result = await mongo.update('cartList', {
+            username: 'haoge'
+        }, {
+            $pull: {
+                cartList: {
+                    _id: {
+                        $in: _ids
+                    }
+
+                }
+            }
         })
         res.send(sendDate({
             code: 1
         }))
     } catch (err) {
+        console.log(err)
         res.send(sendDate({
             code: 0
         }))

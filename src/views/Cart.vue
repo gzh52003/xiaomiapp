@@ -16,7 +16,7 @@
         :origin-price="item.product_org_price != item.product_price ? item.product_org_price : null "
       >
         <template #title>
-          <p @click="gotoGoods(item._id)">{{item.product_name}}</p>
+          <p>{{item.product_name}}</p>
         </template>
         <template #price>
           <p style="color:#f00;font-size:16px">{{item.product_price}}</p>
@@ -118,11 +118,26 @@ export default {
         title: "移除商品",
         message: "确认将商品移除购物车？",
       })
-        .then(() => {
+        .then(async () => {
+          const _ids = this.cartList.reduce((pre, cur) => {
+            // return item.checked;
+            if (cur.checked) {
+              pre.push(cur._id);
+            }
+            return pre;
+          }, []);
+          // console.log(_ids);
+          const { data } = await this.$request.delete("/cart/", {
+            params: {
+              _ids,
+            },
+          });
           this.remove();
+          console.log(data);
         })
-        .catch(() => {
+        .catch((err) => {
           // on cancel
+          // console.log(rer);
         });
     },
   },

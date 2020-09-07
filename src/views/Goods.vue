@@ -34,7 +34,12 @@
 
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
-      <van-goods-action-icon icon="cart-o" text="购物车" @click="goto('/cart')" />
+      <van-goods-action-icon
+        icon="cart-o"
+        :badge="cartList.length !=0 ? cartList.length :null"
+        text="购物车"
+        @click="goto('/cart')"
+      />
       <!-- :badge="cartlist.length" -->
       <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
       <van-goods-action-button type="warning" text="加入购物车" @click="add2cart" />
@@ -44,6 +49,7 @@
 </template>
 <script>
 import Vue from "vue";
+import { mapState, mapMutations } from "vuex";
 import {
   GoodsAction,
   GoodsActionIcon,
@@ -68,6 +74,13 @@ export default {
       },
       recommend: [],
     };
+  },
+  computed: {
+    ...mapState({
+      cartList(state) {
+        return state.cart.cartList;
+      },
+    }),
   },
   methods: {
     onClickLeft() {
@@ -161,9 +174,10 @@ export default {
           background: "#ffe1e1",
         });
       } else if (data.code == 1) {
-        Notify({ type: "primary", message: "成功加入购物车" });
+        Notify({ type: "primary", duration: 1500, message: "成功加入购物车" });
+        this.$store.dispatch("getCartAsync");
       } else {
-        Notify({ type: "warning", message: "加入购物车失败" });
+        Notify({ type: "warning", duration: 1500, message: "加入购物车失败" });
       }
     },
     buyNow() {
@@ -171,6 +185,9 @@ export default {
       this.add2cart();
       this.$router.push("/cart");
     },
+  },
+  beforeCreate() {
+    this.$store.dispatch("getCartAsync");
   },
   async created() {
     const { id } = this.$route.params;
